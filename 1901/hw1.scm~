@@ -1,0 +1,154 @@
+;;;;Author:  
+;;;;ID #:                
+;;;;Lab Section:
+
+
+;;; Utility Functions
+
+;; Reloads the current file.
+(define (reload)
+  (load "hw1.scm")  ; Change file name if copied to a new file.
+)
+(define (square x) (* x x))
+
+;;;; Problem 1 - Code Evaluation
+;===========Part A==========
+(define a 10) 
+(define b 15) 
+(define c 0) 
+
+(or (> b a) (< b a) (= (/ a c) b))   
+
+;Solution: It will come back as true
+;Explanation of solution: This is because b>a. If you switched b to 5, it would still come back true. If you switched b to 10, it would come back with an error saying you are dividing by 0.
+
+;===========Part B==========
+(define x 10) 
+(define (trio x y z) 
+     (- (+ x y) z)) 
+
+(/ x (trio 5 12 16)) 
+
+;Solution: 10
+;Explanation of solution: It uses the 'trio' function to find that (- (+ x y) z) is equal to 1, then takes 10 divided by 1.
+
+(trio x 30 50) 
+
+;Solution: -10
+;Explanation of solution: Uses 'trio' function to find that (+ x y) is 40 and (- 40 z) is -10.
+
+(trio (trio (trio 1 2 3) 4 5) (trio 8 9 10) (trio 100 200 300))
+
+;Solution: 6
+;Explanation of solution: Finds that (trio 1 2 3) is 0, then (trio 0 4 5) is -1, then (trio 8 9 10) is 7, then (trio 100 200 300) is 0, then (trio -1 7 0) is 6.
+
+;===========Part C==========
+
+(define a 3)
+(define b (+ a 1))
+
+(if (and (> b a) (< b (* a b)))
+    b
+    a)
+
+;Solution: 4
+;Explanation of solution: Defines a to be 3, and b to be a+1, which is equal to 4. 4 is > 3 and 4 is < 4*3, so it returns with b (which is 4).
+
+(cond ((= a 4) 6)
+      ((= b 4) (+ 6 7 a))
+      (else 25))
+
+;Solution: If you have it with all the code before this, it will return with 16. If it is alone, it will return with 25.
+;Explanation of solution: With code; a is not = to 4, but b is, so it takes 6+7+3 which is 16. Without code before; neither b or a =4, so it returns with 25.
+
+(+ 2 (if (> b a) b a))
+
+;Solution: 6
+;Explanation of solution: With code beforehand, b (4) is > a (3), so it takes 4+2 which is 6.
+
+(* (cond ((> a b) a)
+         ((< a b) b)
+         (else -1))
+   (+ a 1))
+
+;Solution: 16
+;Explanation of solution: With code beforehand, b (4) is > a (3), so it takes 4*(a+1) which is 4*4 which equals 16.
+
+
+;;;; Problem 2 - Conditional Procedure
+(define (compute a b c)
+  (cond ((and (or (< a 0) (= a 0)) (or (< b 0) (= b 0)) (or (< c 0) (= c 0))) (+ a b c))   ;;If a,b,&c are <=0, adds them up
+        ((or (> (+ a b) c) (> (+ a c) b) (> (+ b c) a)) (* a b c))                         ;;If any are > the sum of the others, multiplies them
+        ((and (> a b) (> a c)) (sqrt(a)))                                                              ;;If a is largest, takes sqrt of it
+        ((> b a) (sqrt(b)))                                                                ;;If b is largest, takes sqrt of it
+        (else (sqrt(c))))                                                                  ;;If c is largest, takes sqrt of it.
+)
+
+;; Test Cases for compute
+(display "== Compute Test Cases ==") (newline)
+(display (compute 0 0 0)) (newline) ; Case 1 result = 0
+(display (compute 1 1 1)) (newline) ; Case 3 result = 1
+(display (compute 5 1 1)) (newline) ; Case 2 result = 5
+(display (compute 2 2 -1)) (newline) ; Case 2 result = -4
+(display (compute -1 -5 -5)) (newline) ; Case 1 result = -11
+(display (compute -1 -1 -1)) (newline) ; Case 1 result = -3
+
+;;;; Problem 3 - Special Forms
+
+(define (p) (p))
+
+(define (test x y)
+  (if (= x 0)
+      0
+      y))
+
+;;(display (test 0 (p)))
+
+;;Explanation of results
+;;The procedure will never evaluate the answer because in applicative order it tries to find the answer of both before returning anything.
+;;In normal order you would get an answer of 0 because it will see that (= x 0) and return with the correct answer
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+
+
+;;;; Problem 4 - Creating Tests
+
+(define (test-proc a b c)
+  (cond ((> a b c) (* 1.0 (/ (+ b c) a)))
+        ((> b c a) (* b b))
+        ((> c b a) (+ (* c c) 1))
+        ((= a b c) (* 2 a a))))
+
+(display "== Problem 4 Test Cases ==") (newline)
+(display (test-proc 3.0 2.0 1.0)) (newline) ;;should be 1     ;;#1       CORRECT
+(display (test-proc 2.0 3.0 1.0)) (newline) ;;should be 9     ;;#2
+(display (test-proc 1.0 2.0 3.0)) (newline) ;;should be 10    ;;#3       CORRECT
+(display (test-proc 2.0 2.0 2.0)) (newline) ;;should be 12    ;;#4
+(display (test-proc 2.0 2.0 1.0)) (newline) ;;NO ANSWER       ;;#5
+(display (test-proc 3.0 1.0 2.0)) (newline) ;;should be 1     ;;#6
+(display (test-proc 1.0 3.0 2.0)) (newline) ;;should be 9     ;;#7       CORRECT
+(display (test-proc 2.0 1.0 3.0)) (newline) ;;should be 10    ;;#8
+(display (test-proc 1.0 2.0 2.0)) (newline) ;;NO ANSWER       ;;#9
+(display (test-proc 2.0 1.0 2.0)) (newline) ;;NO ANSWER       ;;#10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
