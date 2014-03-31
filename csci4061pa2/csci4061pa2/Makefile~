@@ -1,0 +1,5 @@
+make: main.c
+	gcc -g -Wall -o getstring main.c 
+
+clean:
+	rm -f getstring *.o
