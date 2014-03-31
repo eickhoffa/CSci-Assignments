@@ -1,0 +1,58 @@
+#include "mm.h"
+//#include <stdlib.h>
+#include <stdio.h>
+
+
+/*
+int main(){
+	int i;
+	char *A, *B, *C;
+	unsigned long free_num, leaks;
+	mm_init(10);
+	A = mm_alloc(3);
+	B = mm_alloc(2);
+	C = mm_alloc(5);
+	mm_free(C+10); //Trying to free the memory space pointed by an invalid pointer. Print “Free error: not the right pointer!” to out.log
+	for (i=0;i<=5;i++){
+		mm_assign(C+i,(char)i); //When i=20, should print “Buffer Overflow: Try to access illegal memory space.” to out.log
+	}
+	mm_free(A);
+	mm_free(B);
+	mm_free(C);
+	leaks=mm_check();
+	printf("Total memory leaks: %lu\n", leaks);
+	// leaks=2, A,D are not freed
+	mm_end(&free_num);
+	printf("free blocks number: %lu\n", free_num);
+	//free_num=1
+	return 0;
+}
+*/
+
+
+
+int main(){
+	int i;
+	char *A, *B, *C, *D;
+	unsigned long free_num, leaks;
+	mm_init(10000); //create the memory pool and initialize data structure
+	A= mm_alloc(10);
+	B= mm_alloc(1000);
+	C= mm_alloc(200);
+	mm_free(B);
+	D=mm_alloc(20);
+	mm_free(C); //After this block is freed, it will be coalesced with free blocks of both sides
+	for (i=0;i<=20;i++){
+		mm_assign(D+i,(char)i); //When i=20, should print “Buffer Overflow: Try to access illegal memory space.” to out.log
+	}
+	mm_free(D+10); //Trying to free the memory space pointed by an invalid pointer. Print “Free error: not the right pointer!” to out.log
+	leaks=mm_check();
+	printf("Total memory leaks: %lu\n", leaks);
+	// leaks=2, A,D are not freed
+	mm_end(&free_num);
+	printf("free blocks number: %lu\n", free_num);
+	//free_num=1
+	return 0;
+}
+
+

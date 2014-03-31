@@ -1,0 +1,22 @@
+Cuong Ly (4566337) & Adam Eickhoff (4088090)
+
+
+This code was compiled and tested on KH2170-14 after completion of the program and tested on various KH2170 machines while being written.
+
+
+
+
+
+
+
+
+
+
+
+
+
+This code is organized as follows:	Next is the traverseDirectory function that traverses the 'tree' of directories until it finds a file and then searches the file for our desired string
+					Last is the main function that checks to see if there are enough/too few arguments, deletes the contents of the log.txt and out.txt files, and then calls traverseDirectory.
+					
+
+This code can be compiled by typing 'make' into the terminal and run by typing './getstring'. The './getstring' command requires two inputs, the first being an absolute path to a directory and the second being the desired string you want to find.
